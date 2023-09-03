@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import './timer.css';
 
 const Timer = ({ duration }) => {
+  const [initialTime] = useState(duration);
   const [time, setTime] = useState(duration);
   const [running, setRuning] = useState(true);
+  const [pausedTime, setPausedTime] = useState(0);
 
   useEffect(() => {
     let timerId;
@@ -36,11 +38,15 @@ const Timer = ({ duration }) => {
           <div className="timer flex">
             <div className="flip-card">
               <div className="top text-slate-800">{Math.floor(days / 10)}</div>
-              <div className="bottom text-slate-800">{Math.floor(days / 10)}</div>
+              <div className="bottom text-slate-800">
+                {Math.floor(days / 10)}
+              </div>
             </div>
             <div className="flip-card ">
               <div className="top text-slate-800">{Math.floor(days % 10)}</div>
-              <div className="bottom text-slate-800">{Math.floor(days % 10)}</div>
+              <div className="bottom text-slate-800">
+                {Math.floor(days % 10)}
+              </div>
             </div>
           </div>
         </div>
@@ -61,12 +67,20 @@ const Timer = ({ duration }) => {
           <p className="text-2xl text-slate-800">Minutes</p>
           <div className="timer flex">
             <div className="flip-card ">
-              <div className="top text-slate-800">{Math.floor(minutes / 10)}</div>
-              <div className="bottom text-slate-800">{Math.floor(minutes / 10)}</div>
+              <div className="top text-slate-800">
+                {Math.floor(minutes / 10)}
+              </div>
+              <div className="bottom text-slate-800">
+                {Math.floor(minutes / 10)}
+              </div>
             </div>
             <div className="flip-card ">
-              <div className="top text-slate-800">{Math.floor(minutes % 10)}</div>
-              <div className="bottom text-slate-800">{Math.floor(minutes % 10)}</div>
+              <div className="top text-slate-800">
+                {Math.floor(minutes % 10)}
+              </div>
+              <div className="bottom text-slate-800">
+                {Math.floor(minutes % 10)}
+              </div>
             </div>
           </div>
         </div>
@@ -89,11 +103,20 @@ const Timer = ({ duration }) => {
 
   const stopTimer = () => {
     setRuning(false);
+    setPausedTime(time);
   };
 
   const restartTimer = () => {
-    setTime(duration);
     setRuning(true);
+    setTime(initialTime);
+    setPausedTime(0);
+  };
+
+  const resetTimer = () => {
+    if (!running) {
+      setRuning(true);
+      setTime(pausedTime);
+    }
   };
 
   return (
@@ -113,10 +136,17 @@ const Timer = ({ duration }) => {
         </button>
         <button
           type="button"
-          className="rounded-full p-2 text-2xl  font-medium text-slate-800 cursor-pointer bg-white hover:bg-slate-800 hover:text-white active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
+          className="rounded-full p-2 text-2xl font-medium text-slate-800 cursor-pointer bg-white hover:bg-slate-800 hover:text-white active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
+          onClick={resetTimer}
+        >
+          Start Timer
+        </button>
+        <button
+          type="button"
+          className="rounded-full p-2 text-2xl  font-medium text-red-600 cursor-pointer bg-white hover:bg-slate-800 hover:text-white active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
           onClick={restartTimer}
         >
-          Restart Timer
+          Reset Timer
         </button>
       </div>
     </div>
