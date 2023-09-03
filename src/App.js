@@ -5,7 +5,7 @@ import Timer from './component/Timer';
 function App() {
   return (
     <div className="App">
-      <Timer duration={2 * 24 * 60 * 60 * 1000} />
+      <Timer duration={30 * 24 * 60 * 60 * 1000} />
     </div>
   );
 }
